@@ -13,8 +13,12 @@ public class Password {
         return sitePassword;
     }
 
+    public String getSite(){
+        return site;
+    }
+
     @Override
     public String toString() {
-        return "Site: " + site + " | password: " + sitePassword;
+        return "Site: " + site + " | Password: " + sitePassword;
     }
 }

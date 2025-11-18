@@ -7,12 +7,16 @@ public class Main {
     public static void main(String [] args) {
         System.out.println("Welcome to Password Manager!");
 
+        PasswordManager passwordManager = new PasswordManager();
+
         System.out.println("Hi! What's your name?: ");
         String name = scanner.nextLine();
-
         System.out.println("Hello " + name + "!");
 
-        PasswordManager passwordManager = new PasswordManager();
+        User user = new User(name);
+
+        FileHandler file = new FileHandler();
+        final String filename = "passwords.txt";
 
 
         while(true) {
@@ -20,7 +24,11 @@ public class Main {
             System.out.println("What would you like to do today?: ");
             System.out.println("1) Generate a password");
             System.out.println("2) Test strength of my password");
-            System.out.println("3) List all of passwords saved");
+            System.out.println("3) List all passwords saved");
+            System.out.println("4) Remove a password");
+            System.out.println("5) Write passwords to file");
+            System.out.println("6) Read passwords from file");
+            System.out.println("7) Delete the file");
             System.out.println("(type q) to quit");
 
             String input = scanner.nextLine();
@@ -39,9 +47,16 @@ public class Main {
             }
 
             switch(choice) {
-                case 1 -> passwordManager.generatePassword(scanner);
+                case 1 -> passwordManager.generatePassword(scanner, user);
                 case 2 -> passwordManager.testPassword(scanner);
                 case 3 -> passwordManager.listPasswords();
+                case 4 -> passwordManager.deletePassword(scanner);
+                case 5 -> {
+                    String content = "Saved passwords:";
+                    file.writeFile(filename, content, passwordManager.getAllPasswords());
+                }
+                case 6 -> file.readFromFile(filename);
+                case 7 -> file.deleteFile(filename);
                 default -> System.out.println("Invalid!");
             }
         }
